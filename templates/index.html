@@ -11,14 +11,13 @@
 <header>
     <nav>
         <a href="#">Accueil</a>
-        <a href="#">Données</a>
+        <a href="#donnes">Données</a>
         <a href="#map">Carte</a>
-        <a href="#">Plus</a>
         <div class="animation start-home"></div>
     </nav>
 </header>
 <body id="wrapper">
-<section>
+<section id="donnes">
     <h1>Classement des villes avec le plus de stations</h1>
     <table>
         <thead>
@@ -26,6 +25,9 @@
             <th><a>Ville</a></th>
             <th><a>Nom du service</a></th>
             <th><a>Nombre de stations</a></th>
+            <th><a>Nombre total de vélos disponibles</a></th>
+            <th><a>Moyenne de vélos disponibles par station</a></th>
+        </tr>
         </thead>
         <tbody>
         {% for contract in bike_data %}
@@ -33,6 +35,9 @@
             <td>{{ contract['contract_name'] }}</td>
             <td>{{ contract['commercial_name'] }}</td>
             <td>{{ contract['num_stations'] }}</td>
+            <td>{{ contract['total_bikes'] }}</td>
+            <td>{{ "%.2f"|format(contract['avg_bikes_per_station']) }}</td>
+            <td><a href="/stations/{{ contract['contract_name'] }}">Voir plus</a></td>
         </tr>
         {% endfor %}
         </tbody>
@@ -64,6 +69,8 @@
     </script>
 </section>
 </body>
+
+<footer>
+    <p>Projet réalisé par <a href="https://www.linkedin.com/in/célian-mats/">Célian Mats</a> dans le cadre de la candidature au poste d'alternant chez Ellipse Bikes</p>
+</footer>
 </html>
-
-

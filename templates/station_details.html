@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Stations de vélo - {{ contract_name }}</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body id="wrapper">
+<div id="station_back">
+    <h1>Stations de vélo - {{ contract_name }}</h1><a href="/">&#x2190; Retour à l'accueil</a>
+</div>
+<div class="search-container">
+    <input type="text" id="searchInput" placeholder="Rechercher une station...">
+</div>
+<div class="station-cards">
+    {% for station in stations %}
+    <div class="station-card">
+        <h3>{{ station.name }}</h3>
+        <p>Nombre de vélos disponibles : {{ station.available_bikes }}</p>
+        <p>Status: {{ station.status }}</p>
+        <p>Capacité totale : {{ station.bike_stands }}</p>
+        <p>Dernière mise à jour : <span class="last-update">{{ station.last_update }}</span></p>
+    </div>
+    {% endfor %}
+</div>
+</body>
+<script>
+    // Filtrage des stations par nom
+    document.addEventListener("DOMContentLoaded", function() {
+        var searchInput = document.getElementById("searchInput");
+        var stationCards = document.querySelectorAll(".station-card");
+
+        searchInput.addEventListener("input", function() {
+            var searchText = searchInput.value.trim().toLowerCase();
+
+            stationCards.forEach(function(card) {
+                var stationName = card.querySelector("h3").textContent.toLowerCase();
+                if (stationName.includes(searchText)) {
+                    card.style.display = "block";
+                } else {
+                    card.style.display = "none";
+                }
+            });
+        });
+    });
+    // Conversion du timestamp en date lisible
+    document.addEventListener("DOMContentLoaded", function() {
+        var lastUpdateElements = document.querySelectorAll(".last-update");
+        lastUpdateElements.forEach(function(element) {
+            var timestamp = parseInt(element.textContent)
+            var formattedDate = format_timestamp(timestamp);
+            element.textContent = formattedDate;
+        });
+
+        function format_timestamp(timestamp) {
+            var date = new Date(timestamp);
+            var formatted_date = date.toLocaleString();
+
+            return formatted_date;
+        }
+    });
+</script>
+</html>
